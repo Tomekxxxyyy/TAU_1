@@ -42,7 +42,7 @@ public class Kontrakt implements Psikus{
 			do{
 				losowaLiczba2 = (int) (Math.random() * iloscBitow);
 			}while(losowaLiczba == losowaLiczba2);
-			System.out.println(losowaLiczba + " " + losowaLiczba2);
+			
 			String tmp = tablica[losowaLiczba];
 			tablica[losowaLiczba] = tablica[losowaLiczba2];
 			tablica[losowaLiczba2] = tmp;
