@@ -1,24 +1,26 @@
 package test;
 
 import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
+
 import main.Kontrakt;
 import main.NieduanyPsikusException;
 import org.junit.Test;
 
 public class KontraktTest {
 	Kontrakt kontrakt = new Kontrakt();
-	
+		
 	//cyfrokrad
 	@Test
 	public void nullException(){
 		assertNull(kontrakt.cyfrokrad(4));
 	}
 	@Test
-	public void assertLengthEqualOne(){
-		assertTrue(String.valueOf(kontrakt.cyfrokrad(45)).length() == 1);
+	public void assertContains(){
+		assertThat(kontrakt.cyfrokrad(45).toString(), either(containsString("4")).or(containsString("5")));
 	}
 	@Test
-	public void assertLengthEqualFour(){
+	public void assertLength(){
 		assertTrue(String.valueOf(kontrakt.cyfrokrad(45345)).length() == 4);
 	}
 	// Hultajchochla
@@ -27,29 +29,29 @@ public class KontraktTest {
 		kontrakt.hultajchochla(4);
 	}
 	@Test
-	public void assertChangeValue() throws NieduanyPsikusException{
-		assertTrue(kontrakt.hultajchochla(25) != 25);
+	public void assertSwitchNumbers() throws NieduanyPsikusException{
+		assertEquals(new Integer(52), kontrakt.hultajchochla(25));
 	}
 	@Test
 	public void assertSameLength() throws NieduanyPsikusException{
-		assertTrue(String.valueOf(kontrakt.hultajchochla(25)).length() == String.valueOf(kontrakt.hultajchochla(25)).length());
+		assertTrue(kontrakt.hultajchochla(2545).toString().length() == kontrakt.hultajchochla(2545).toString().length());
 	}
 	@Test
-	public void contains() throws NieduanyPsikusException{
-		assertTrue(kontrakt.hultajchochla(257).toString().contains("2") && kontrakt.hultajchochla(257).toString().contains("5") && kontrakt.hultajchochla(257).toString().contains("7"));
+	public void containsNumbers() throws NieduanyPsikusException{
+		assertThat(kontrakt.hultajchochla(257).toString(), anyOf(containsString("2"), containsString("5"), containsString("7")));
 	}
 	// Niekształtek
 	@Test
-	public void equalsTestNotChanging(){
+	public void assertsNoChange(){
 		assertEquals(new Integer(124), kontrakt.nieksztaltek(124));
 	}
 	@Test
 	public void change3to8Test(){
-		assertTrue(new Integer(kontrakt.nieksztaltek(3145)).toString().contains("8"));
+		assertThat(kontrakt.nieksztaltek(3145).toString(),containsString("8"));
 	}
 	@Test
 	public void change7to1Test(){
-		assertTrue(new Integer(kontrakt.nieksztaltek(8147)).toString().contains("1"));
+		assertTrue(new Integer(kontrakt.nieksztaltek(8247)).toString().contains("1"));
 	}
 	@Test
 	public void change6to9Test(){

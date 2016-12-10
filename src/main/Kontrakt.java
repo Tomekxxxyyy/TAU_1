@@ -6,68 +6,83 @@ public class Kontrakt implements Psikus{
 
 	@Override
 	public Integer cyfrokrad(Integer liczba) {
-		String liczba_str = liczba.toString();
-		int iloscBitow = liczba_str.length();
-		if(iloscBitow == 1){
+		
+		ArrayList<Integer> lista = new ArrayList<Integer>();
+		
+		while(liczba % 10 > 0){
+			lista.add(liczba % 10);
+			liczba /= 10;
+		}
+		
+		if(lista.size() == 1){
 			return null;
 		}
 		else{
-			String[] tablica = liczba_str.split("");
-			ArrayList<String> lista = new ArrayList<String>();
-			for(int x = 0; x < tablica.length; x++){
-				lista.add(tablica[x]);
+			int zwracanaLiczba = 0;
+			int losowaLiczba = (int) (Math.random() * lista.size());
+			lista.remove(losowaLiczba);	
+			
+			for(int x = 0; x < lista.size(); x++){
+				zwracanaLiczba += lista.get(x) * Math.pow(10, x);
 			}
-			int losowaLiczba = (int) (Math.random() * iloscBitow);
-			lista.remove(losowaLiczba);
-			liczba_str  = "";
-			for(String s : lista){
-				liczba_str += s;
-			}
-			return Integer.parseInt(liczba_str);
+			return zwracanaLiczba;
 		}
-		
 	}
 
 	@Override
 	public Integer hultajchochla(Integer liczba) throws NieduanyPsikusException {
-		String liczba_str = liczba.toString();
-		int iloscBitow = liczba_str.length();
-		if(iloscBitow == 1){
+				
+		ArrayList<Integer> lista = new ArrayList<Integer>();
+		
+		while(liczba % 10 > 0){
+			lista.add(liczba % 10);
+			liczba /= 10;
+		}
+		
+		if(lista.size() == 1){
 			throw new NieduanyPsikusException();
 		}
 		else{
-			String[] tablica = liczba_str.split("");
-			int losowaLiczba = (int) (Math.random() * iloscBitow);
+			int zwracanaLiczba = 0;
+			int losowaLiczba = (int) (Math.random() * lista.size());
 			int losowaLiczba2 = 0;
 			do{
-				losowaLiczba2 = (int) (Math.random() * iloscBitow);
+				losowaLiczba2 = (int) (Math.random() * lista.size());
 			}while(losowaLiczba == losowaLiczba2);
 			
-			String tmp = tablica[losowaLiczba];
-			tablica[losowaLiczba] = tablica[losowaLiczba2];
-			tablica[losowaLiczba2] = tmp;
-			String wynik = "";
-			for(String element: tablica){
-				wynik += element;
+			int tmp = lista.get(losowaLiczba);
+			lista.set(losowaLiczba, lista.get(losowaLiczba2));
+			lista.set(losowaLiczba2, tmp);
+			
+			for(int x = 0; x < lista.size(); x++){
+				zwracanaLiczba += lista.get(x) * Math.pow(10, x);
 			}
-			return Integer.parseInt(wynik);
+			return zwracanaLiczba;
 		}
 	}
 
 	@Override
 	public Integer nieksztaltek(Integer liczba) {
-		String liczba_str = liczba.toString();
-		String[] tablica = liczba_str.split("");
+		
+		int zwracanaLiczba = 0;
 		ArrayList<Integer> lista = new ArrayList<Integer>();
 		ArrayList<Integer> listaIndexowDoZmiany = new ArrayList<Integer>();
-		for(int x = 0; x < tablica.length; x++){
-			if(Integer.parseInt(tablica[x]) == 3 || Integer.parseInt(tablica[x]) == 7 || Integer.parseInt(tablica[x]) == 6){
+		
+		
+		while(liczba % 10 > 0){
+			lista.add(liczba % 10);
+			liczba /= 10;
+		}
+		for(int x = 0; x < lista.size(); x++){
+			if(lista.get(x) == 3 || lista.get(x) == 7 || lista.get(x) == 6){
 				listaIndexowDoZmiany.add(x);
 			}
-			lista.add(Integer.parseInt(tablica[x]));
 		}
 		if(listaIndexowDoZmiany.isEmpty()){
-			return liczba;
+			for(int x = 0; x < lista.size(); x++){
+				zwracanaLiczba += lista.get(x) * Math.pow(10, x);
+			}
+			return zwracanaLiczba;
 		}
 		else{
 			int losowaLiczba = (int) (Math.random() * listaIndexowDoZmiany.size());
@@ -85,12 +100,10 @@ public class Kontrakt implements Psikus{
 				lista.set(indexDoZmiany, 1);
 				break;
 			}
-			String wynik = "";
-			for(int element : lista){
-				wynik += Integer.toString(element);
+			for(int x = 0; x < lista.size(); x++){
+				zwracanaLiczba += lista.get(x) * Math.pow(10, x);
 			}
-			return Integer.parseInt(wynik);
+			return zwracanaLiczba;
 		}
 	}
-
 }
